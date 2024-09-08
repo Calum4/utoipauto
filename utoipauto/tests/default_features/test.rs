@@ -131,3 +131,21 @@ pub struct CustomHandlerApiDocs {}
 fn test_custom_handler() {
     assert_eq!(CustomHandlerApiDocs::openapi().paths.paths.len(), 1)
 }
+
+/// Discover schema with lifetimes
+#[utoipauto(paths = "./utoipauto/tests/default_features/lifetimes.rs")]
+#[derive(OpenApi)]
+#[openapi(info(title = "Lifetimes API", version = "1.0.0"))]
+pub struct LifetimesApiDocs {}
+
+#[test]
+fn test_lifetimes() {
+    assert_eq!(
+        LifetimesApiDocs::openapi()
+            .components
+            .expect("no components")
+            .schemas
+            .len(),
+        2
+    )
+}
