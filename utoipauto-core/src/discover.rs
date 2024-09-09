@@ -86,11 +86,7 @@ fn parse_module_items(
                 .map(|item| DiscoverType::Fn(build_path(module_path, &item)))
                 .collect(),
             syn::Item::Struct(s) => {
-                let is_generic = !s
-                    .generics
-                    .params
-                    .iter()
-                    .all(|p| matches!(p, syn::GenericParam::Lifetime(_)));
+                let is_generic = !s.generics.params.is_empty();
 
                 parse_from_attr(
                     &s.attrs,
@@ -101,11 +97,7 @@ fn parse_module_items(
                 )
             }
             syn::Item::Enum(e) => {
-                let is_generic = !e
-                    .generics
-                    .params
-                    .iter()
-                    .all(|p| matches!(p, syn::GenericParam::Lifetime(_)));
+                let is_generic = !e.generics.params.is_empty();
 
                 parse_from_attr(
                     &e.attrs,
